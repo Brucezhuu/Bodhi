@@ -1,0 +1,61 @@
+name: build
+
+on:
+  push:
+    branches:
+      - dev
+      - release
+      - build/*
+  workflow_dispatch:
+
+jobs:
+  win-pack: # 打包任务
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: rm .npmrc
+      - run: yarn install --no-lockfile
+      - run: yarn electron:build --publish=never
+      - uses: actions/upload-artifact@v3
+        with:
+          name: windows-installer
+          path: dist_electron/*.exe
+  linux-pack: # 打包任务
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: rm .npmrc
+      - run: yarn install --no-lockfile
+      - run: yarn electron:build --publish=never
+      - uses: actions/upload-artifact@v3
+        with:
+          name: linux-appImage
+          path: dist_electron/*.AppImage
+  mac-pack: # 打包任务
+    runs-on: macos-latest
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      - run: rm .npmrc
+      - run: yarn install --no-lockfile
+      - run: echo $CSC_IDENTITY_AUTO_DISCOVERY
+      - run: yarn electron:build --publish=never --skipElectronBuild
+      - run: cp -r build dist_electron/bundled/build
+      - run: npx electron-builder --project dist_electron/bundled/ --universal || true
+      - uses: actions/upload-artifact@v3
+        with:
+          name: mac-dmg
+          path: dist_electron/bundled/dist/*.dmg

@@ -1,0 +1,36 @@
+.DS_Store
+node_modules
+/dist
+dist_electronupdate.asar
+
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+demo/*
+demo
+
+#Electron-builder output
+/dist_electron
+
+#package-lock.json should be ignore since we dont use npm
+package-lock.json
+
+#nyc output
+.nyc_output/
+demo/index.md
