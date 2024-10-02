@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 /dist
-dist_electronupdate.asar
 
 
 # local env files
@@ -22,15 +21,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-demo/*
-demo
-
-#Electron-builder output
-/dist_electron
-
-#package-lock.json should be ignore since we dont use npm
-package-lock.json
-
-#nyc output
-.nyc_output/
-demo/index.md
