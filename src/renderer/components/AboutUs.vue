@@ -5,14 +5,14 @@
       <router-link to="/home">Back to Home</router-link>
     </div>
   </template>
-
+  
   <script>
   export default {
     name: 'AboutUs'
   }
   </script>
-
+  
   <style>
   /* 样式 */
   </style>
-
+  
